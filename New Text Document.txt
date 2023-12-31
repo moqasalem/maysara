@@ -1,0 +1,31 @@
+lnaguagelab
+
+Epic: Assessments
+
+User story:A teacher can upload an assessment for the students
+Tasks:
+Create assessments page
+Create add assessment button 
+Create assessments types 
+Create assessments customizations
+//Create quiz 
+Create question 
+View students solution
+
+User story:A student can access the assessments for a specific course
+Tasks:
+Create navigation bar inside course page 
+Add assessments button to the navigation bar
+Add assessment content inside the assessments page 
+Create assessment submission button
+
+--------
+SPRINT#4
+
+Epic: Students report
+
+User story: A teacher can generate reports about the students grades in assessments
+Tasks:
+Create generate report button in the assessments page
+Create a report page
+Create download report button
