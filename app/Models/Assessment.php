@@ -13,5 +13,10 @@ class Assessment extends Model
         'type',
         'title',
         'body',
+        'report',
     ];
+
+    public function course(){
+        return $this->belongsTo(Course::class,'course_id');
+    }
 }

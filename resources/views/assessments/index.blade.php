@@ -19,7 +19,10 @@
                         <thead>
                             <tr>
                                 <th>No.</th>
-                                <th>name</th>
+                                <th>Assessment Title</th>
+                                <th>Course</th>
+                                <th>Report</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -27,7 +30,10 @@
                             @foreach($assessments as $assessment)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$assessment->title}}</td>
+                                <td> <a href="{{ route('assessments.show',$assessment->id) }}" class="underline" title="click to see assessment page">{{ $assessment->title}}</a></td>
+                                <td>{{ $assessment->course->name }}</td>
+                              <td>{{ $assessment->report?'Yes':'No' }}</td>
+                                
                             </tr>
                             @endforeach
 

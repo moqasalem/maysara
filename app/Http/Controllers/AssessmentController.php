@@ -52,4 +52,51 @@ class AssessmentController extends Controller
 
         return redirect()->route('assessments.index')->with('success', 'Assessment created successfully.');
     }
+
+    public function show(Assessment $assessment)
+    {
+        $courses = auth()->user()->teacherCourses;
+
+        if (auth()->user()->type == 'teacher')
+            return view('assessments.show-teacher', compact('assessment', 'courses'));
+        else
+            return view('assessments.show-teacher', compact('assessment', 'courses'));
+
+    }
+
+    public function update(Assessment $assessment, Request $request)
+    {
+        if (auth()->user()->type !== 'teacher')
+            return abort(403);
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'type' => 'required|string|in:quiz,question',
+            'course_id' => 'required',
+            'body' => 'required|string',
+            'report' => 'file|mimes:pdf,doc,docx,jpeg,png,gif|max:5048', 
+        ]);
+
+        $assessment->update([
+            'course_id' => $request->input('course_id'),
+            'title' => $request->input('title'),
+            'type' => $request->input('type'),
+            'body' => $request->input('body'),
+        ]);
+
+        // Upload report if it exists
+        if ($request->hasFile('report')) {
+            $report = $request->file('report');
+
+            $extension = $report->extension();
+            $newName =  uniqid() . '.' . $extension;
+            $report->storeAs('public/reports/', $newName);
+            $assessment->report ='reports/'. $newName;
+            $assessment->save();
+        }
+
+
+        return redirect()->route('assessments.index')->with('success', 'Assessment updated successfully.');
+
+    }
 }
