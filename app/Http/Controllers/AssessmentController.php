@@ -10,20 +10,21 @@ class AssessmentController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->type !== 'teacher')
+        // Check if the user is a teacher
+        if (auth()->user()->type !== 'teacher') {
             return redirect('/dashboard');
-
-        // Get all courses for the teacher
-        $teacherCourses = auth()->user()->teacherCourses();
-        
-        foreach(  $teacherCourses as $course){
-            Log::info($course->assessments());
-            info('.......');
         }
 
-        dd($teacherCourses);
+        // Get all courses for the teacher and retrieve their IDs
+        $teacherCoursesIds = auth()->user()->teacherCourses->pluck('id')->toArray();
+
+        // Get assessments for the teacher's courses
+        $assessments = Assessment::whereIn('course_id', $teacherCoursesIds)->get();
+
+        // You can use the $assessments array as needed, for example, pass it to the view
         return view('assessments.index', compact('assessments'));
     }
+
 
     public function create()
     {
@@ -36,24 +37,18 @@ class AssessmentController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'type' => 'required|string|in:quiz,question',
-            'course_id' => 'required|array',
-            'course_id.*' => 'exists:courses,id', // Adjust 'courses' with the actual table name for courses
+            'course_id' => 'required',
             'body' => 'required|string',
         ]);
 
         // Create a new Assessment instance using the fillable attributes
         $assessment = new Assessment([
+            'course_id' => $request->input('course_id'),
             'title' => $request->input('title'),
             'type' => $request->input('type'),
             'body' => $request->input('body'),
         ]);
         $assessment->save();
-
-        $courses = $request->input('course_id');
-        foreach ($courses as $course) {
-            // Attach courses to the assessment
-            $assessment->courses()->attach($course);
-        }
 
         return redirect()->route('assessments.index')->with('success', 'Assessment created successfully.');
     }

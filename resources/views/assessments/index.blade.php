@@ -23,12 +23,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach($courses as $course)
+                           
+                            @foreach($assessments as $assessment)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$course->name}}</td>
+                                <td>{{$assessment->title}}</td>
                             </tr>
-                            @endforeach --}}
+                            @endforeach
 
             
                         </tbody>

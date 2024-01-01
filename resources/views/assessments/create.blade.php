@@ -27,8 +27,8 @@
                             </select>
                         </div>
                        
-                        <select class="block w-full mt-2" data-hide-search="true" required multiple id="type"
-                            data-placeholder="Select" name="course_id[]">
+                        <select class="block w-full mt-2" data-hide-search="true" required  id="type"
+                            data-placeholder="Select" name="course_id">
                             @foreach ($courses as $course)
                             <option value="{{  $course->id }}">{{ $course->name }}</option>
                             @endforeach

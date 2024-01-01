@@ -16,7 +16,7 @@ class CreateSubmissionsTable extends Migration
         Schema::create('submissions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('assessment_id');
-            $table->foreignId('user_id'); 
+            $table->foreignId('student_id'); 
             $table->text('answer');
             $table->timestamps();
         });
